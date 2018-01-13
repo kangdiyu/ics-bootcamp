@@ -1,24 +1,23 @@
-def shuffle array
-  # Initialization
-  shuffled = []
-  while array.length > 0
-    # Randomly Selection
-    random = rand(array.length)
-    # initialize an empty array that
-    # stored the unprocessed parts of the array
-    new_array = []
-    iter = 0
-    array.each do |i_th|
-      if iter != random
-        new_array.push i_th
-      else
-        shuffled.push i_th
-      end
-      iter = iter + 1
-    end
-    array = new_array
+def shuffle_wrapper array
+  shuffle(array, [])
+end
+# Recursive Function
+def shuffle array, shuffled_array
+  if array.length <= 0
+    return shuffled_array
   end
-  shuffled
+  random = rand(array.length)
+  new_array = []
+  iter = 0
+  array.each do |i_th|
+    if array[iter] != array[random]
+      new_array.push i_th
+    else
+      shuffled_array.push i_th
+    end
+    iter = iter + 1
+  end
+  shuffle(new_array, shuffled_array)
 end
 
 word_array = []
@@ -31,7 +30,7 @@ while true
   word_array.push word
 end
 puts 'Here is the shuffled array:'
-puts shuffle(word_array)
+puts shuffle_wrapper(word_array)
 if word_array == []
   puts '(No inputs. Empty array returned!!)'
 end
